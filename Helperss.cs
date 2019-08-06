@@ -11,14 +11,60 @@ namespace WebApplication123.Helperss
 
     public static class PagerHtmlHelpers
     {
-        public static IHtmlString GetPager(this HtmlHelper helper , IPagerComponent pager)
+        public static IHtmlString GetPager(this HtmlHelper helper , IPagerComponent pager,string actionName,string controllerName,object obj)
         {
             TagBuilder tag = new TagBuilder("ul");
+            var urlHelper = new UrlHelper(helper.ViewContext.RequestContext);
+            for (int i = 1; i <= pager.TotalOfPageBaseOnSearch; i++)
+            {
+                TagBuilder anchor = new TagBuilder("a");
+                anchor.Attributes.Add("href", urlHelper.Action(actionName,controllerName,obj));
+                anchor.InnerHtml = i.ToString();
+                TagBuilder li = new TagBuilder("li");
+                li.InnerHtml = anchor.ToString(TagRenderMode.Normal);
+                tag.InnerHtml += li;
+
+            }
             return new MvcHtmlString(tag.ToString(TagRenderMode.Normal));
 
         }
+        public static IHtmlString GetPager(this HtmlHelper helper, IPagerComponent pager, string actionName, object obj)
+        {
+            TagBuilder tag = new TagBuilder("ul");
+            var urlHelper = new UrlHelper(helper.ViewContext.RequestContext);
+            for (int i = 1; i <= pager.TotalOfPageBaseOnSearch; i++)
+            {
+                TagBuilder anchor = new TagBuilder("a");
+                anchor.Attributes.Add("href", urlHelper.Action(actionName, obj));
+                anchor.InnerHtml = i.ToString();
+                TagBuilder li = new TagBuilder("li");
+                li.InnerHtml = anchor.ToString(TagRenderMode.Normal);
+                tag.InnerHtml += li;
+
+            }
+            return new MvcHtmlString(tag.ToString(TagRenderMode.Normal));
+
+        }
+        public static IHtmlString GetPager(this HtmlHelper helper, IPagerComponent pager,Func<string,int> generateUrl)
+        {
+            TagBuilder tag = new TagBuilder("ul");
+            var urlHelper = new UrlHelper(helper.ViewContext.RequestContext);
+            for (int i = 1; i <= pager.TotalOfPageBaseOnSearch; i++)
+            {
+                TagBuilder anchor = new TagBuilder("a");
+                //anchor.Attributes.Add("href", urlHelper.Action(actionName, obj));
+                anchor.InnerHtml = i.ToString();
+                TagBuilder li = new TagBuilder("li");
+                li.InnerHtml = anchor.ToString(TagRenderMode.Normal);
+                tag.InnerHtml += li;
+
+            }
+            return new MvcHtmlString(tag.ToString(TagRenderMode.Normal));
+
+        }
+
     }
-   
+
     public interface Ipager<T>: IPagerComponent
 
     {
@@ -93,7 +139,7 @@ namespace WebApplication123.Helperss
             {
                 ListofItems = items;
             }
-            TotalOfPageBaseOnSearch = Convert.ToInt32(Math.Ceiling(Convert.ToDecimal(ListofItems.Count()) / Convert.ToDecimal(Size)));
+            TotalOfPageBaseOnSearch = Convert.ToInt32(Math.Ceiling(Convert.ToDecimal(_context.Set<Tentity>().Where(_functionWhere).Count()) / Convert.ToDecimal(Size)));
         }
 
 
