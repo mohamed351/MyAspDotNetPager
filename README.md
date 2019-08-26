@@ -1,7 +1,7 @@
 # MyAspDotNetPager
 
 ## Razor Engine
-The Two essential code  The deciration of Modal 
+The Two essential code  The deciration of Modal and The Pager itself 
 ```
 @model IPager<MyEShopping.Models.Product>
  @Html.GetPager(new string[] { "pagination-sm", "no-margin", "pull-right" },Model,a=>Url.Action("Index",new { indexer =a  }),PagerHtmlHelpers.TypeOfTemplate.Bootstrap3)
