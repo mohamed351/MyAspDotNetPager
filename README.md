@@ -16,7 +16,7 @@ The Two essential code  The deciration of Modal
 Order you want to or by ID which is Int or Name Which is a string 
 The First argument for This is DBContext , the 2nd is Where statement and the Last but not the Least The Index of the page 
 and how many element in the page 
-
+```
    public ActionResult Index(int indexer = 0,string search= "")
         {
             PagerController<Product, int> pager = new PagerController<Product, int>(db,
@@ -25,6 +25,7 @@ and how many element in the page
           
             return View(pager);
         }
+   ```
 
 
 
